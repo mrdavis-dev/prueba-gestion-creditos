@@ -1,0 +1,71 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Nueva Solicitud de Crédito</h2>
+      <a routerLink="/" class="btn btn-outline">← Volver al listado</a>
+    </div>
+
+    @if (success) {
+      <div class="alert alert-success">Solicitud creada exitosamente. Redirigiendo...</div>
+    }
+    @if (error) {
+      <div class="alert alert-error">{{ error }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="cedula">Cédula</label>
+        <input
+          id="cedula"
+          type="text"
+          class="form-input"
+          [class.input-error]="isInvalid('cedula')"
+          formControlName="cedula"
+          placeholder="Ingrese la cédula"
+        />
+        @if (isInvalid('cedula')) {
+          <span class="error-msg">Cédula requerida (mínimo 5 caracteres).</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="monto">Monto ($)</label>
+        <input
+          id="monto"
+          type="number"
+          class="form-input"
+          [class.input-error]="isInvalid('monto')"
+          formControlName="monto"
+          placeholder="0.00"
+          min="1"
+        />
+        @if (isInvalid('monto')) {
+          <span class="error-msg">Monto requerido entre $500 y $50,000.</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="plazo_meses">Plazo (meses)</label>
+        <input
+          id="plazo_meses"
+          type="number"
+          class="form-input"
+          [class.input-error]="isInvalid('plazo_meses')"
+          formControlName="plazo_meses"
+          placeholder="12"
+          min="1"
+          max="360"
+        />
+        @if (isInvalid('plazo_meses')) {
+          <span class="error-msg">Plazo requerido entre 6 y 60 meses.</span>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="loading">
+          {{ loading ? 'Enviando...' : 'Crear Solicitud' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
