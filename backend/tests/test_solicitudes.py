@@ -61,7 +61,7 @@ def test_filtrar_por_estado(client):
     client.post("/solicitudes/", json={"cedula": "222", "monto": 2000, "plazo_meses": 24})
 
     client.patch(f"/solicitudes/{solicitud_id}/estado", json={
-        "estado": "aprobada",
+        "estado": "aprobado",
         "comentario": "Todo ok"
     })
 
@@ -76,11 +76,11 @@ def test_aprobar_solicitud(client):
     solicitud_id = r.json()["id"]
 
     response = client.patch(f"/solicitudes/{solicitud_id}/estado", json={
-        "estado": "aprobada",
+        "estado": "aprobado",
         "comentario": "Perfil crediticio aceptable"
     })
     assert response.status_code == 200
-    assert response.json()["estado"] == "aprobada"
+    assert response.json()["estado"] == "aprobado"
     assert response.json()["comentario"] == "Perfil crediticio aceptable"
 
 
@@ -89,11 +89,11 @@ def test_rechazar_solicitud(client):
     solicitud_id = r.json()["id"]
 
     response = client.patch(f"/solicitudes/{solicitud_id}/estado", json={
-        "estado": "rechazada",
+        "estado": "rechazado",
         "comentario": "Historial crediticio negativo"
     })
     assert response.status_code == 200
-    assert response.json()["estado"] == "rechazada"
+    assert response.json()["estado"] == "rechazado"
 
 
 def test_no_modificar_solicitud_ya_procesada(client):
@@ -101,12 +101,12 @@ def test_no_modificar_solicitud_ya_procesada(client):
     solicitud_id = r.json()["id"]
 
     client.patch(f"/solicitudes/{solicitud_id}/estado", json={
-        "estado": "aprobada",
+        "estado": "aprobado",
         "comentario": "Aprobado"
     })
 
     response = client.patch(f"/solicitudes/{solicitud_id}/estado", json={
-        "estado": "rechazada",
+        "estado": "rechazado",
         "comentario": "Intento de cambio"
     })
     assert response.status_code == 400
@@ -114,7 +114,7 @@ def test_no_modificar_solicitud_ya_procesada(client):
 
 def test_solicitud_no_encontrada(client):
     response = client.patch("/solicitudes/9999/estado", json={
-        "estado": "aprobada",
+        "estado": "aprobado",
         "comentario": "No existe"
     })
     assert response.status_code == 404
