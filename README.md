@@ -1,4 +1,4 @@
-# Prueba Bluecore — Gestión de Créditos
+# Prueba — Gestión de Créditos
 
 Sistema de gestión de solicitudes de crédito. Backend FastAPI + Frontend Angular, dockerizado.
 
